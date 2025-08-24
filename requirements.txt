@@ -1,20 +1,16 @@
 streamlit==1.48.1
-opencv-python-headless<5
+opencv-python-headless<4.10
 ultralytics==8.3.185
-numpy==2.2.6
-Pillow==11.3.0
-reportlab==4.4.3
-lap==0.5.12
+numpy
+Pillow
+reportlab
+lap
 
-# Use PyTorch CPU wheels (no "+cpu" suffix)
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.8.0
 torchvision==0.23.0
 torchaudio==2.8.0
 
-# helpful but optional:
-tqdm==4.67.1
-pandas==2.3.2
-altair==5.5.0
-
-
+tqdm
+pandas
+altair
