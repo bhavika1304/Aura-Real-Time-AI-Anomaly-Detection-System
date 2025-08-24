@@ -26,7 +26,7 @@ AI-Powered Surveillance System for Real-Time Behavioral Anomaly Detection
 | Optional AI | Autoencoders (PyTorch), GANs (for rare event synthesis) |
 
 ## 📐 System Architecture
-![System Architecture](file/sysarch.png)
+![System Architecture](files/sysarch.png)
 
 ## ⚙️ Installation & Setup
 1) Clone & env
