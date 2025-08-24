@@ -103,6 +103,7 @@ Tips
 - Report → compile timestamped PDF with evidence
 
 ## 📂 Folder Structure 
+```
 Aura-Real-Time-AI-Anomaly-Detection-System/
 ├─ dashboard.py           # Streamlit UI (upload, live view, alerts, screenshots, PDF)
 ├─ main.py                # CLI prototype for quick testing
@@ -112,6 +113,7 @@ Aura-Real-Time-AI-Anomaly-Detection-System/
 ├─ data/                  # optional: sample videos
 ├─ requirements.txt
 └─ README.md
+```
 
 ## 🧪 Testing
 
