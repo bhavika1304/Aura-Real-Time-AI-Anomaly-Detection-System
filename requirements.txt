@@ -1,11 +1,11 @@
-streamlit==1.48.1
-opencv-python==0.0.0        # block GUI build
-opencv-python-headless==4.10.0.84
-ultralytics==8.3.185
+streamlit
+opencv-python-headless
+ultralytics
 numpy
 pillow
 reportlab
 lap
 
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.8.0
+torch
+
