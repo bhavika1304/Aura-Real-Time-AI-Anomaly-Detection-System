@@ -1,16 +1,10 @@
 streamlit==1.48.1
-opencv-python-headless<4.10
+opencv-python-headless==4.9.0.80
 ultralytics==8.3.185
 numpy
-Pillow
+pillow
 reportlab
 lap
 
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.8.0
-torchvision==0.23.0
-torchaudio==2.8.0
-
-tqdm
-pandas
-altair
