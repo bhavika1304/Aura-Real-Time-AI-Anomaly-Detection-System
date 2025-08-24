@@ -4,7 +4,7 @@ An automated surveillance system designed to detect behavioral anomalies in real
 
 **Live Demo:** [PASTE YOUR STREAMLIT CLOUD URL HERE]
 
-![Dashboard Screenshot](PASTE_A_LINK_TO_A_SCREENSHOT_OF_YOUR_DASHBOARD_HERE)
+![Dashboard Screenshot](files/demo_2_compressed.mp4)
 
 ---
 
