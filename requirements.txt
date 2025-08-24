@@ -2,10 +2,5 @@ streamlit
 opencv-python-headless
 ultralytics
 numpy
-pillow
+Pillow
 reportlab
-lap
-
---extra-index-url https://download.pytorch.org/whl/cpu
-torch
-
