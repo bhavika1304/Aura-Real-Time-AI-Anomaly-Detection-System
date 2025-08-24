@@ -1,7 +1,17 @@
-streamlit
-opencv-python-headless
-ultralytics
-numpy
-Pillow
-reportlab
-lap
+streamlit==1.48.1
+opencv-python-headless==4.12.0.88
+ultralytics==8.3.185
+numpy==2.2.6
+Pillow==11.3.0
+reportlab==4.4.3
+lap==0.5.12
+
+# Explicitly add common deps so builds are smaller + predictable
+torch==2.8.0+cpu
+torchvision==0.23.0+cpu
+torchaudio==2.8.0+cpu
+-f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+tqdm==4.67.1
+pandas==2.3.2
+altair==5.5.0
