@@ -29,23 +29,17 @@ ABANDONMENT_DIST_THRESH = 100
 @st.cache_resource
 def load_yolo_model(path):
     return YOLO(path)
-
 model = load_yolo_model(MODEL_PATH)
 
 # --- SESSION STATE INITIALIZATION ---
 def initialize_state():
-    if 'processing' not in st.session_state:
-        st.session_state.processing = False
-    if 'video_buffer' not in st.session_state:
-        st.session_state.video_buffer = None
-    if 'alerts_log' not in st.session_state:
-        st.session_state.alerts_log = []
-    if 'alert_screenshots' not in st.session_state:
-        st.session_state.alert_screenshots = {}
+    if 'processing' not in st.session_state: st.session_state.processing = False
+    if 'video_buffer' not in st.session_state: st.session_state.video_buffer = None
+    if 'alerts_log' not in st.session_state: st.session_state.alerts_log = []
+    if 'alert_screenshots' not in st.session_state: st.session_state.alert_screenshots = {}
     if 'track_data' not in st.session_state:
         st.session_state.track_data = defaultdict(lambda: {'positions': [], 'frames': [], 'class_id': None, 'anomaly': None, 'last_seen': 0})
-    if 'object_person_links' not in st.session_state:
-        st.session_state.object_person_links = {}
+    if 'object_person_links' not in st.session_state: st.session_state.object_person_links = {}
 
 initialize_state()
 
@@ -76,6 +70,8 @@ def generate_pdf_report():
             img_pil.save(img_buffer, format='PNG')
             img_buffer.seek(0)
             elements.append(Paragraph(caption, styles['h4']))
+            # --- THIS IS THE FIX ---
+            # The invalid 'preserveAspectRatio' argument is removed.
             elements.append(ReportLabImage(img_buffer, width=400))
             elements.append(Spacer(1, 12))
     doc.build(elements)
@@ -91,7 +87,6 @@ with st.sidebar:
             st.session_state.uploaded_filename = uploaded_file.name
             st.session_state.processing = False
             st.session_state.alerts_log, st.session_state.alert_screenshots = [], {}
-    
     if st.session_state.video_buffer is not None:
         if not st.session_state.processing:
             if st.button("Start Processing"):
@@ -101,10 +96,8 @@ with st.sidebar:
             if st.button("Stop Processing"):
                 st.session_state.processing = False
                 st.rerun()
-
     st.title("Anomaly Alerts")
     alerts_placeholder = st.empty()
-    
     st.title("Reporting")
     if st.button("Generate Alert Report"):
         if not st.session_state.alerts_log:
@@ -132,32 +125,26 @@ if st.session_state.processing and st.session_state.video_buffer is not None:
     LOITER_FRAME_THRESH = int(LOITER_TIME_THRESH * fps)
     ABANDONMENT_FRAME_THRESH = int(ABANDONMENT_TIME_THRESH * fps)
     frame_num = 0
-
     while cap.isOpened() and st.session_state.processing:
         ret, frame = cap.read()
         if not ret:
             st.write("Video processing finished.")
             st.session_state.processing = False
             break
-        
         frame_num += 1
         h, w, _ = frame.shape
         scale = TARGET_WIDTH / w
         TARGET_HEIGHT = int(h * scale)
         frame = cv2.resize(frame, (TARGET_WIDTH, TARGET_HEIGHT))
         h, w, _ = frame.shape
-        
         results = model.track(frame, persist=True, classes=[0, 24, 25, 26, 28], verbose=False)
         annotated_frame = frame.copy()
-
         if results[0].boxes.id is not None:
             boxes = results[0].boxes.xywh.cpu().numpy()
             track_ids = results[0].boxes.id.int().cpu().tolist()
             class_ids = results[0].boxes.cls.int().cpu().tolist()
-            
             track_id_to_box = {tid: b for tid, b in zip(track_ids, boxes)}
             current_persons, current_objects = {}, {}
-
             for box, track_id, cls_id in zip(boxes, track_ids, class_ids):
                 x, y, _, _ = box
                 data = st.session_state.track_data[track_id]
@@ -165,14 +152,11 @@ if st.session_state.processing and st.session_state.video_buffer is not None:
                 data['frames'].append(frame_num)
                 data['class_id'] = cls_id
                 data['last_seen'] = frame_num
-                
                 if len(data['positions']) > LOITER_FRAME_THRESH * 2:
                     data['positions'].pop(0)
                     data['frames'].pop(0)
-                
                 if cls_id == 0: current_persons[track_id] = (x, y)
                 else: current_objects[track_id] = (x, y)
-
             for track_id, data in st.session_state.track_data.items():
                 if frame_num - data['last_seen'] > fps: continue
                 new_anomaly = None
@@ -210,7 +194,6 @@ if st.session_state.processing and st.session_state.video_buffer is not None:
                             resized = cv2.resize(screenshot, (150, 150))
                             st.session_state.alert_screenshots[alert_message] = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
                 data['anomaly'] = new_anomaly
-
             for box, track_id, _ in zip(boxes, track_ids, class_ids):
                 is_anomaly = st.session_state.track_data.get(track_id, {}).get('anomaly')
                 x, y, box_w, box_h = box
@@ -219,7 +202,6 @@ if st.session_state.processing and st.session_state.video_buffer is not None:
                 label = f"ID:{track_id}" + (f" {is_anomaly}" if is_anomaly else "")
                 cv2.rectangle(annotated_frame, (x1, y1), (x2, y2), color, 2)
                 cv2.putText(annotated_frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-        
         video_placeholder.image(annotated_frame, channels="BGR", use_container_width=True)
         alerts_placeholder.markdown("\n".join(st.session_state.alerts_log))
         with screenshot_placeholder.container():
