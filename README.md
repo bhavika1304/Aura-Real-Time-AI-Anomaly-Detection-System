@@ -1,43 +1,30 @@
-# Aura: AI-Powered Surveillance System
+# Aura 🔍
+AI-Powered Surveillance System for Real-Time Behavioral Anomaly Detection
 
-An automated surveillance system designed to detect behavioral anomalies in real-time from video feeds. This project was developed for the Honeywell Hackathon.
+## 🌟 Overview
+**Aura** is an end-to-end video intelligence system that detects behavioral anomalies (Loitering, Running, Abandoned Object) from CCTV footage in real time. Built for the Honeywell Hackathon, Aura combines YOLOv8 detection, multi-object tracking, rule-based anomaly logic, and a clean Streamlit dashboard with alert logs, screenshots, and one-click PDF reporting. Experimental modules include Autoencoders (unsupervised anomaly detection) and GAN-based rare-event synthesis.
 
-**Live Demo:** [PASTE YOUR STREAMLIT CLOUD URL HERE]
+**Live Demo:** _Add your Streamlit Cloud URL_  
+**Demo Video:** _Add a short 20–30s clip link_  
 
-![Dashboard Screenshot](files/demo_2_compressed.mp4)
+## 🚀 Features
+- **Real-Time Detection & Tracking**: YOLOv8 + persistent IDs across frames  
+- **Anomalies Detected**:
+  - **Loitering**: stationarity beyond time & radius thresholds
+  - **Running**: sudden high displacement between frames
+  - **Abandoned Object**: owner–object link broken for ≥ threshold
+- **Interactive Dashboard (Streamlit)**: live overlays (green = normal, red = anomaly), timestamped alert panel, screenshots grid
+- **PDF Reporting (ReportLab)**: one-click export with alerts + evidence
+- **Advanced (Optional)**: Autoencoder (unsupervised) and GAN synthesis for rare scenarios
 
----
+## 🏗️ Tech Stack
+| Component | Technology |
+|---|---|
+| Detection | Ultralytics YOLOv8 (nano by default) |
+| CV / Utils | OpenCV, NumPy, Pillow |
+| UI | Streamlit |
+| Reporting | ReportLab (PDF) |
+| Optional AI | Autoencoders (PyTorch), GANs (for rare event synthesis) |
 
-## ## Features
-
-The system processes video to identify and track individuals and objects, flagging several types of anomalies with visual alerts.
-
-### ### Detected Anomalies
-* **Loitering:** An individual remaining stationary in a single area for an extended period.
-* **Running:** An individual moving at a speed significantly higher than the surrounding people.
-* **Abandoned Object:** An object (e.g., a bag) that is left behind by a person who then moves away from the area.
-
-### ### Dashboard Functionality
-* **Video Upload:** Users can upload their own `.mp4` or `.avi` video files.
-* **Real-Time Visualization:** A live video feed displays color-coded bounding boxes (green for normal, red for anomaly) and tracking IDs.
-* **Alerts Log:** A sidebar provides a timestamped log of all detected anomalies for review.
-* **Alert Screenshots:** The dashboard automatically captures and displays screenshots of each detected anomaly.
-* **PDF Reporting:** Users can generate and download a complete PDF report of all alerts and screenshots from the session.
-
----
-
-## ## How to Run
-
-1.  **Deploy:** The application is deployed on Streamlit Community Cloud. Access it via the "Live Demo" link above.
-2.  **Upload:** Use the sidebar to upload a video file.
-3.  **Process:** Click the "Start Processing" button to begin the analysis.
-4.  **Monitor:** Observe the video feed for alerts and review the logs and screenshots.
-
----
-
-## ## Technology Stack
-
-* **Language:** Python
-* **Core Libraries:** OpenCV, NumPy
-* **AI/ML:** Ultralytics (for YOLOv8), Streamlit
-* **Reporting:** ReportLab
+## 📐 System Architecture
+`files/sys arch.png`
