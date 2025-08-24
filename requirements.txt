@@ -6,12 +6,13 @@ Pillow==11.3.0
 reportlab==4.4.3
 lap==0.5.12
 
-# Explicitly add common deps so builds are smaller + predictable
-torch==2.8.0+cpu
-torchvision==0.23.0+cpu
-torchaudio==2.8.0+cpu
--f https://download.pytorch.org/whl/cpu/torch_stable.html
+# Use PyTorch CPU wheels (no "+cpu" suffix)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.8.0
+torchvision==0.23.0
+torchaudio==2.8.0
 
+# helpful but optional:
 tqdm==4.67.1
 pandas==2.3.2
 altair==5.5.0
